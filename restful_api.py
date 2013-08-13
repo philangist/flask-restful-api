@@ -3,6 +3,7 @@ from flask import (
     url_for,
     request,
     json,
+    jsonify,
 )
 
 app = Flask(__name__)
@@ -26,10 +27,14 @@ def api_article(articleid):
 
 @app.route('/hello')
 def api_hello():
-    if 'name' in request.args:
-        return 'Hello ' + request.args['name']
-    else:
-        return 'Hello John Doe'
+    data = {
+        'hello': 'world',
+        'number': '3',
+    }
+    resp = jsonify(data)
+    resp.status_code = 200
+
+    return resp
 
 
 @app.route('/echo', methods=HTTP_VERBS)
