@@ -63,5 +63,30 @@ def api_message():
         return '415 Unsupported Media Type ;)'
 
 
+@app.errorhandler(404)
+def not_found(error=None):
+    message = {
+        'status': 404,
+        'message': 'Not Found: ' + request.url,
+    }
+    resp = jsonify(message)
+    resp.status_code = 404
+
+    return resp
+
+
+@app.route('/users/<userid>', methods=HTTP_VERBS[0:1])
+def api_users(userid):
+    users = {
+        '1': 'John',
+        '2': 'Steve',
+        '3': 'Bill',
+    }
+
+    if userid in users:
+        return jsonify({userid: users[userid]})
+    else:
+        return not_found()
+
 if __name__ == '__main__':
     app.run()
