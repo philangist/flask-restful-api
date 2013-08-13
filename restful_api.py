@@ -1,4 +1,9 @@
-from flask import Flask, url_for
+from flask import (
+    Flask,
+    url_for,
+    request,
+)
+
 app = Flask(__name__)
 
 
@@ -16,6 +21,13 @@ def api_articles():
 def api_article(articleid):
     return 'You are reading ' + articleid
 
+
+@app.route('/hello')
+def api_hello():
+    if 'name' in request.args:
+        return 'Hello ' + request.args['name']
+    else:
+        return 'Hello John Doe'
 
 if __name__ == '__main__':
     app.run()
